@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import com.aura_weavers.luciddreaming.ui.screens.TodayView
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 
 class MainActivity : ComponentActivity() {
@@ -84,28 +85,4 @@ enum class AppDestinations(
     HOME("Today", Icons.Default.Home),
     FAVORITES("Favorites", Icons.Default.Favorite),
     PROFILE("Profile", Icons.Default.AccountBox),
-}
-
-@Composable
-fun TodayView(modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello Android!",
-        modifier = modifier
-    )
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LucidDreamingTheme {
-        Greeting("Android")
-    }
 }
