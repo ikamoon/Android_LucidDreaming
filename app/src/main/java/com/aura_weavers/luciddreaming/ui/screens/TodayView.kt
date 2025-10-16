@@ -2,6 +2,7 @@ package com.aura_weavers.luciddreaming.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,11 +24,17 @@ import androidx.compose.ui.unit.sp
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 
 @Composable
-fun TodayView(modifier: Modifier = Modifier) {
-    Row {
+fun TodayView(
+    modifier: Modifier = Modifier,
+    onNavigateToTimer: () -> Unit = {},
+    contentPadding: PaddingValues = PaddingValues(vertical = 30.dp),
+) {
+    Column(
+        modifier = modifier.padding(contentPadding)
+    ) {
         HeaderSection(
 //        timeOfDay = viewModel.getTimeOfDay(),
-            onNavigateToTimer = {} //onNavigateToTimer
+            onNavigateToTimer = onNavigateToTimer
         )
 
         Text(
@@ -44,7 +51,7 @@ private fun HeaderSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 30.dp),
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

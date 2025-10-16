@@ -63,7 +63,8 @@ fun LucidDreamingApp() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             when (currentDestination) {
                 AppDestinations.HOME -> TodayView(
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.padding(innerPadding),
+                    onNavigateToTimer = { }
                 )
                 AppDestinations.FAVORITES -> Text(
                     text = "Favorites",
