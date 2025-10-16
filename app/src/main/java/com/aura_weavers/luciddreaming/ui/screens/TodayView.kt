@@ -22,10 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
+import com.aura_weavers.luciddreaming.viewmodel.TodayViewModel
 
 @Composable
 fun TodayView(
     modifier: Modifier = Modifier,
+    viewModel: TodayViewModel = TodayViewModel(),
     onNavigateToTimer: () -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 30.dp),
 ) {
@@ -33,7 +35,7 @@ fun TodayView(
         modifier = modifier.padding(contentPadding)
     ) {
         HeaderSection(
-//        timeOfDay = viewModel.getTimeOfDay(),
+            timeOfDay = viewModel.getTimeOfDay(),
             onNavigateToTimer = onNavigateToTimer
         )
 
@@ -46,6 +48,7 @@ fun TodayView(
 
 @Composable
 private fun HeaderSection(
+    timeOfDay: String = "day",
     onNavigateToTimer: () -> Unit
 ) {
     Row(
@@ -56,7 +59,7 @@ private fun HeaderSection(
     ) {
         Column {
             Text(
-                text = "Good morning", //$timeOfDay",
+                text = "Good $timeOfDay",
                 fontSize = 14.sp,
                 color = Color.Gray
             )
