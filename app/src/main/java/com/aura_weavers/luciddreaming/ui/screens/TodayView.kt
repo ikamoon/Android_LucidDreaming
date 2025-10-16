@@ -27,7 +27,7 @@ import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 fun TodayView(
     modifier: Modifier = Modifier,
     onNavigateToTimer: () -> Unit = {},
-    contentPadding: PaddingValues = PaddingValues(vertical = 30.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 30.dp),
 ) {
     Column(
         modifier = modifier.padding(contentPadding)
@@ -50,8 +50,7 @@ private fun HeaderSection(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
