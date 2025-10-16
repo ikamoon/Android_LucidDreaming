@@ -60,10 +60,19 @@ fun LucidDreamingApp() {
         }
     ) {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
-            )
+            when (currentDestination) {
+                AppDestinations.HOME -> TodayView(
+                    modifier = Modifier.padding(innerPadding)
+                )
+                AppDestinations.FAVORITES -> Text(
+                    text = "Favorites",
+                    modifier = Modifier.padding(innerPadding)
+                )
+                AppDestinations.PROFILE -> Text(
+                    text = "Profile",
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
         }
     }
 }
@@ -75,6 +84,14 @@ enum class AppDestinations(
     HOME("Today", Icons.Default.Home),
     FAVORITES("Favorites", Icons.Default.Favorite),
     PROFILE("Profile", Icons.Default.AccountBox),
+}
+
+@Composable
+fun TodayView(modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello Android!",
+        modifier = modifier
+    )
 }
 
 @Composable
