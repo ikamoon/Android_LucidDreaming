@@ -1,4 +1,4 @@
-package com.example.luciddreaming
+package com.aura_weavers.luciddreaming
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import com.example.luciddreaming.ui.theme.LucidDreamingTheme
+import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

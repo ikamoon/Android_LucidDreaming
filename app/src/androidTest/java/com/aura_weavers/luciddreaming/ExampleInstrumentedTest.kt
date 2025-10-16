@@ -1,4 +1,4 @@
-package com.example.luciddreaming
+package com.aura_weavers.luciddreaming
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

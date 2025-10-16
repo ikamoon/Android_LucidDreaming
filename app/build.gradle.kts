@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.luciddreaming"
+    namespace = "com.aura_weavers.luciddreaming"
     compileSdk {
         version = release(36)
     }

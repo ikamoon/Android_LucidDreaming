@@ -1,4 +1,4 @@
-package com.example.luciddreaming
+package com.aura_weavers.luciddreaming
 
 import org.junit.Test
 
