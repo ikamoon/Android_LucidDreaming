@@ -91,6 +91,11 @@ private fun HeaderSection(
             )
         }
     }
+
+    LineBannerSection(
+        bannerImageUrl = "https://nkzxjrsmqrrowyuzbapl.supabase.co/storage/v1/object/public/banners/line_bonus_banner.jpg", //viewModel.lineBannerImageURL,
+        onNavigateToLine = {} //onNavigateToLine
+    )
 }
 
 @Preview(showBackground = true)
