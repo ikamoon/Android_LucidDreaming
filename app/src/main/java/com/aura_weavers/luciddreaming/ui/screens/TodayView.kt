@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 import com.aura_weavers.luciddreaming.viewmodel.TodayViewModel
@@ -40,14 +42,22 @@ fun TodayView(
     modifier: Modifier = Modifier,
     viewModel: TodayViewModel = TodayViewModel(),
     onNavigateToTimer: () -> Unit = {},
+    onNavigateToLine: () -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 30.dp),
 ) {
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
+    val todayColumn by viewModel.todayColumn.collectAsStateWithLifecycle()
+    val todayDreamInduction by viewModel.todayDreamInduction.collectAsStateWithLifecycle()
+    val showPaywall by viewModel.showPaywall.collectAsStateWithLifecycle()
+
     Column(
         modifier = modifier.padding(contentPadding)
     ) {
         HeaderSection(
-            timeOfDay = viewModel.getTimeOfDay(),
-            onNavigateToTimer = onNavigateToTimer
+            viewModel = viewModel,
+            onNavigateToTimer = onNavigateToTimer,
+            onNavigateToLine = onNavigateToLine
         )
 
         Text(
@@ -59,8 +69,9 @@ fun TodayView(
 
 @Composable
 private fun HeaderSection(
-    timeOfDay: String = "day",
-    onNavigateToTimer: () -> Unit
+    viewModel: TodayViewModel,
+    onNavigateToTimer: () -> Unit,
+    onNavigateToLine: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -70,7 +81,7 @@ private fun HeaderSection(
     ) {
         Column {
             Text(
-                text = "Good $timeOfDay",
+                text = "Good $viewModel.timeOfDay",
                 fontSize = 14.sp,
                 color = Color.Gray
             )
@@ -93,8 +104,8 @@ private fun HeaderSection(
     }
 
     LineBannerSection(
-        bannerImageUrl = "https://firebasestorage.googleapis.com/v0/b/dreammagic-21768/o/line_bonus_banner_money.png?alt=media&token=726e34ae-fcdd-4228-a9c3-4c87fb4a52dd", //viewModel.lineBannerImageURL,
-        onNavigateToLine = {} //onNavigateToLine
+        bannerImageUrl = viewModel.lineBannerImageURL,
+        onNavigateToLine = onNavigateToLine
     )
 }
 
