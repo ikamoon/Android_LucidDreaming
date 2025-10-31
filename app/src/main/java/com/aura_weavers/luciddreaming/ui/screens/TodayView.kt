@@ -93,7 +93,7 @@ private fun HeaderSection(
     }
 
     LineBannerSection(
-        bannerImageUrl = "https://nkzxjrsmqrrowyuzbapl.supabase.co/storage/v1/object/public/banners/line_bonus_banner.jpg", //viewModel.lineBannerImageURL,
+        bannerImageUrl = "https://firebasestorage.googleapis.com/v0/b/dreammagic-21768/o/line_bonus_banner_money.png?alt=media&token=726e34ae-fcdd-4228-a9c3-4c87fb4a52dd", //viewModel.lineBannerImageURL,
         onNavigateToLine = {} //onNavigateToLine
     )
 }
