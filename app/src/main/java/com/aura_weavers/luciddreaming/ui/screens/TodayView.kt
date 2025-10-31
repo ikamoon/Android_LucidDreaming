@@ -1,5 +1,7 @@
 package com.aura_weavers.luciddreaming.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +45,6 @@ fun TodayView(
     modifier: Modifier = Modifier,
     viewModel: TodayViewModel = TodayViewModel(),
     onNavigateToTimer: () -> Unit = {},
-    onNavigateToLine: () -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 30.dp),
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
@@ -56,8 +58,7 @@ fun TodayView(
     ) {
         HeaderSection(
             viewModel = viewModel,
-            onNavigateToTimer = onNavigateToTimer,
-            onNavigateToLine = onNavigateToLine
+            onNavigateToTimer = onNavigateToTimer
         )
 
         Text(
@@ -70,8 +71,7 @@ fun TodayView(
 @Composable
 private fun HeaderSection(
     viewModel: TodayViewModel,
-    onNavigateToTimer: () -> Unit,
-    onNavigateToLine: () -> Unit
+    onNavigateToTimer: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -81,7 +81,7 @@ private fun HeaderSection(
     ) {
         Column {
             Text(
-                text = "Good $viewModel.timeOfDay",
+                text = "Good ${viewModel.getTimeOfDay()}",
                 fontSize = 14.sp,
                 color = Color.Gray
             )
@@ -103,9 +103,13 @@ private fun HeaderSection(
         }
     }
 
+    val context = LocalContext.current
     LineBannerSection(
         bannerImageUrl = viewModel.lineBannerImageURL,
-        onNavigateToLine = onNavigateToLine
+        onNavigateToLine = {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.lineURL))
+            context.startActivity(intent)
+        }
     )
 }
 

@@ -28,7 +28,7 @@ class TodayViewModel : ViewModel() {
     val showPaywall: StateFlow<Boolean> = _showPaywall.asStateFlow()
 
     val lineBannerImageURL = "https://firebasestorage.googleapis.com/v0/b/dreammagic-21768/o/line_bonus_banner_money.png?alt=media&token=726e34ae-fcdd-4228-a9c3-4c87fb4a52dd"
-    val lineURL = "https://line.me"
+    val lineURL = "https://lin.ee/fIj3TeW"
 
     init {
         loadBootstrapIfNeeded()
