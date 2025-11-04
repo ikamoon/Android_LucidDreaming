@@ -3,6 +3,7 @@ package com.aura_weavers.luciddreaming.ui.screens
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -37,13 +39,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.aura_weavers.luciddreaming.data.TaskCardData
+import com.aura_weavers.luciddreaming.ui.components.TaskCard
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 import com.aura_weavers.luciddreaming.viewmodel.TodayViewModel
+import com.example.luciddreamingapp.data.Column
+import com.example.luciddreamingapp.data.DreamInductionVideo
 
 @Composable
 fun TodayView(
     modifier: Modifier = Modifier,
     viewModel: TodayViewModel = TodayViewModel(),
+    onNavigateToDreamDiary: () -> Unit = {},
+    onNavigateToBookshelf: (Column) -> Unit = {},
+    onPlayVideo: (DreamInductionVideo) -> Unit = {},
     onNavigateToTimer: () -> Unit = {},
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 30.dp),
 ) {
@@ -53,18 +62,46 @@ fun TodayView(
     val todayDreamInduction by viewModel.todayDreamInduction.collectAsStateWithLifecycle()
     val showPaywall by viewModel.showPaywall.collectAsStateWithLifecycle()
 
-    Column(
+    LazyColumn (
         modifier = modifier.padding(contentPadding)
     ) {
-        HeaderSection(
-            viewModel = viewModel,
-            onNavigateToTimer = onNavigateToTimer
-        )
+        item {
+            HeaderSection(
+                viewModel = viewModel,
+                onNavigateToTimer = onNavigateToTimer
+            )
+        }
 
-        Text(
-            text = "Hello Android!",
-            modifier = Modifier
-        )
+        item {
+            Spacer(modifier = Modifier.height(32.dp))
+        }
+
+        item {
+            val context = LocalContext.current
+            LineBannerSection(
+                bannerImageUrl = viewModel.lineBannerImageURL,
+                onNavigateToLine = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.lineURL))
+                    context.startActivity(intent)
+                }
+            )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(32.dp))
+        }
+
+        // Today's Task List Section
+        item {
+            TaskListSection(
+                todayColumn = todayColumn,
+                todayDreamInduction = todayDreamInduction,
+                onNavigateToDreamDiary = onNavigateToDreamDiary,
+                onNavigateToBookshelf = onNavigateToBookshelf,
+                onPlayVideo = onPlayVideo,
+                onShowPaywall = { viewModel.showPaywall() }
+            )
+        }
     }
 }
 
@@ -102,15 +139,6 @@ private fun HeaderSection(
             )
         }
     }
-
-    val context = LocalContext.current
-    LineBannerSection(
-        bannerImageUrl = viewModel.lineBannerImageURL,
-        onNavigateToLine = {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.lineURL))
-            context.startActivity(intent)
-        }
-    )
 }
 
 @Preview(showBackground = true)
@@ -186,5 +214,117 @@ private fun LineBannerSection(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun TaskListSection(
+    todayColumn: Column?,
+    todayDreamInduction: DreamInductionVideo?,
+    onNavigateToDreamDiary: () -> Unit,
+    onNavigateToBookshelf: (Column) -> Unit,
+    onPlayVideo: (DreamInductionVideo) -> Unit,
+    onShowPaywall: () -> Unit
+) {
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp) //spacing(16.dp)
+    ) {
+        // Morning Tasks
+        TaskSectionHeader(
+            icon = Icons.Default.Settings,
+            title = "朝起きたらやること",
+            iconTint = Color(0xFFFF9800)
+        )
+
+        TaskCard(
+            taskData = TaskCardData(
+                index = 3,
+                title = "夢日記を書く",
+                subtitle = "",
+                duration = "5分",
+                type = "日記",
+                icon = "edit",
+                hasShareButton = true
+            ),
+            onClick = onNavigateToDreamDiary
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Night Tasks
+        TaskSectionHeader(
+            icon = Icons.Default.Star,
+            title = "夜寝る前にやること",
+            iconTint = Color(0xFF2196F3)
+        )
+
+        TaskCard(
+            taskData = TaskCardData(
+                index = 0,
+                title = "願いを叶えるヒントを得る",
+                subtitle = "「${todayColumn?.title ?: "願望実現の鍵"}」",
+                duration = "2分",
+                type = "コラム",
+                icon = "book",
+                hasShareButton = false
+            ),
+            onClick = { todayColumn?.let(onNavigateToBookshelf) }
+        )
+
+        TaskCard(
+            taskData = TaskCardData(
+                index = 1,
+                title = "睡眠導入とアファメーション",
+                subtitle = "「${todayDreamInduction?.title ?: "明晰夢への導入を聞く"}」",
+                duration = "5分",
+                type = "動画",
+                icon = "play",
+                hasShareButton = false
+            ),
+            onClick = {
+                todayDreamInduction?.let { video ->
+                    onPlayVideo(video)
+                }
+            }
+        )
+
+//        TaskCard(
+//            taskData = TaskCardData(
+//                index = 2,
+//                title = "よく寝る",
+//                subtitle = "良い睡眠は夢を叶える第一歩",
+//                duration = "7時間",
+//                type = "アクティビティ",
+//                icon = "bedtime",
+//                isEnabled = false
+//            )
+//        )
+    }
+}
+
+
+@Composable
+private fun TaskSectionHeader(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    iconTint: Color
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = iconTint,
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = title,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF4A4A4A)
+        )
     }
 }

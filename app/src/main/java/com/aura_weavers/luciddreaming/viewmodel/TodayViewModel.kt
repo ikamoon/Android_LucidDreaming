@@ -89,4 +89,12 @@ class TodayViewModel : ViewModel() {
             _isLoading.value = false
         }
     }
+
+    fun showPaywall() {
+        _showPaywall.value = true
+    }
+
+    fun hidePaywall() {
+        _showPaywall.value = false
+    }
 }
