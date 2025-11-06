@@ -1,8 +1,11 @@
 package com.aura_weavers.luciddreaming.model
 
+import com.example.luciddreamingapp.data.Column
+import com.example.luciddreamingapp.data.DreamInductionVideo
+
 data class GetBootstrapResponse(
-    val column: Column?,
-    val video: DreamInductionVideo?,
+    val column: Column,
+    val video: DreamInductionVideo,
     val lineBannerImageURL: String,
     val lineURL: String,
     val touURL: String,

@@ -7,16 +7,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 object BootstrapManager {
+
     private val _todayColumn = MutableStateFlow<Column?>(null)
     val todayColumn: StateFlow<Column?> = _todayColumn
 
     private val _todayDreamInduction = MutableStateFlow<DreamInductionVideo?>(null)
     val todayDreamInduction: StateFlow<DreamInductionVideo?> = _todayDreamInduction
 
-    private val _lineBannerImageURL = MutableStateFlow("")
+    private val _lineBannerImageURL = MutableStateFlow("https://firebasestorage.googleapis.com/v0/b/dreammagic-21768/o/line_bonus_banner_money.png?alt=media&token=726e34ae-fcdd-4228-a9c3-4c87fb4a52dd")
     val lineBannerImageURL: StateFlow<String> = _lineBannerImageURL
 
-    private val _lineURL = MutableStateFlow("")
+    private val _lineURL = MutableStateFlow("https://lin.ee/fIj3TeW")
     val lineURL: StateFlow<String> = _lineURL
 
     private val _touURL = MutableStateFlow("")
@@ -59,8 +60,8 @@ object BootstrapManager {
     val launchModalButtonURL: StateFlow<String> = _launchModalButtonURL
 
     fun setTodayData(bootstrap: GetBootstrapResponse) {
-        _todayColumn.value = bootstrap.column
-        _todayDreamInduction.value = bootstrap.video
+//        _todayColumn.value = bootstrap.column
+//        _todayDreamInduction.value = bootstrap.video
         _lineBannerImageURL.value = bootstrap.lineBannerImageURL
         _lineURL.value = bootstrap.lineURL
         _touURL.value = bootstrap.touURL

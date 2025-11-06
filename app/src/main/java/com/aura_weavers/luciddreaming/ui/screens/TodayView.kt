@@ -2,11 +2,14 @@ package com.aura_weavers.luciddreaming.ui.screens
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,11 +24,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -61,45 +67,78 @@ fun TodayView(
     val todayDreamInduction by viewModel.todayDreamInduction.collectAsStateWithLifecycle()
     val showPaywall by viewModel.showPaywall.collectAsStateWithLifecycle()
 
-    LazyColumn (
-        modifier = modifier.padding(contentPadding)
+    LaunchedEffect(Unit) {
+        viewModel.loadBootstrapIfNeeded()
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF5F5F5))
     ) {
-        item {
-            HeaderSection(
-                viewModel = viewModel,
-                onNavigateToTimer = onNavigateToTimer
-            )
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(32.dp))
-        }
-
-        item {
-            val context = LocalContext.current
-            LineBannerSection(
-                bannerImageUrl = viewModel.lineBannerImageURL,
-                onNavigateToLine = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.lineURL))
-                    context.startActivity(intent)
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (error != null) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "エラーが発生しました: $error",
+                    color = Color.Red,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = modifier.padding(contentPadding)
+            ) {
+                item {
+                    HeaderSection(
+                        viewModel = viewModel,
+                        onNavigateToTimer = onNavigateToTimer
+                    )
                 }
-            )
-        }
 
-        item {
-            Spacer(modifier = Modifier.height(32.dp))
-        }
+                item {
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
 
-        // Today's Task List Section
-        item {
-            TaskListSection(
-                todayColumn = todayColumn,
-                todayDreamInduction = todayDreamInduction,
-                onNavigateToDreamDiary = onNavigateToDreamDiary,
-                onNavigateToBookshelf = onNavigateToBookshelf,
-                onPlayVideo = onPlayVideo,
-                onShowPaywall = { viewModel.showPaywall() }
-            )
+                item {
+                    val context = LocalContext.current
+                    LineBannerSection(
+                        bannerImageUrl = viewModel.lineBannerImageURL.value,
+                        onNavigateToLine = {
+                            val urlString = viewModel.lineURL.value
+                            val intent =
+                                Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
+                            context.startActivity(intent)
+                        }
+                    )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+
+                // Today's Task List Section
+                item {
+                    TaskListSection(
+                        todayColumn = todayColumn,
+                        todayDreamInduction = todayDreamInduction,
+                        onNavigateToDreamDiary = onNavigateToDreamDiary,
+                        onNavigateToBookshelf = onNavigateToBookshelf,
+                        onPlayVideo = onPlayVideo,
+                        onShowPaywall = { viewModel.showPaywall }
+                    )
+                }
+            }
         }
     }
 }
@@ -221,8 +260,8 @@ private fun LineBannerSection(
 
 @Composable
 private fun TaskListSection(
-    todayColumn: Column?,
-    todayDreamInduction: DreamInductionVideo?,
+    todayColumn: com.aura_weavers.luciddreaming.model.Column?,
+    todayDreamInduction: com.aura_weavers.luciddreaming.model.DreamInductionVideo?,
     onNavigateToDreamDiary: () -> Unit,
     onNavigateToBookshelf: (Column) -> Unit,
     onPlayVideo: (DreamInductionVideo) -> Unit,
@@ -265,29 +304,31 @@ private fun TaskListSection(
             taskData = TaskCardData(
                 index = 0,
                 title = "願いを叶えるヒントを得る",
-                subtitle = "「${todayColumn?.title ?: "願望実現の鍵"}」",
+                subtitle = "", //""「${todayColumn?.title ?: "願望実現の鍵"}」",
                 duration = "2分",
                 type = "コラム",
                 icon = "book",
                 hasShareButton = false
             ),
-            onClick = { todayColumn?.let(onNavigateToBookshelf) }
+            onClick = {
+                /*todayColumn?.let(onNavigateToBookshelf) */
+            }
         )
 
         TaskCard(
             taskData = TaskCardData(
                 index = 1,
                 title = "睡眠導入とアファメーション",
-                subtitle = "「${todayDreamInduction?.title ?: "明晰夢への導入を聞く"}」",
+                subtitle = "", //"「${todayDreamInduction?.title ?: "明晰夢への導入を聞く"}」",
                 duration = "5分",
                 type = "動画",
                 icon = "play",
                 hasShareButton = false
             ),
             onClick = {
-                todayDreamInduction?.let { video ->
+                /*todayDreamInduction?.let { video ->
                     onPlayVideo(video)
-                }
+                }*/
             }
         )
 
