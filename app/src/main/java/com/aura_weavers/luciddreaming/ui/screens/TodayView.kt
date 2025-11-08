@@ -48,8 +48,8 @@ import com.aura_weavers.luciddreaming.data.TaskCardData
 import com.aura_weavers.luciddreaming.ui.components.TaskCard
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 import com.aura_weavers.luciddreaming.viewmodel.TodayViewModel
-import com.example.luciddreamingapp.data.Column
-import com.example.luciddreamingapp.data.DreamInductionVideo
+import com.aura_weavers.luciddreaming.model.Column
+import com.aura_weavers.luciddreaming.model.DreamInductionVideo
 
 @Composable
 fun TodayView(

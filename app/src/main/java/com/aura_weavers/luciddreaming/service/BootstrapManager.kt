@@ -14,10 +14,10 @@ object BootstrapManager {
     private val _todayDreamInduction = MutableStateFlow<DreamInductionVideo?>(null)
     val todayDreamInduction: StateFlow<DreamInductionVideo?> = _todayDreamInduction
 
-    private val _lineBannerImageURL = MutableStateFlow("https://firebasestorage.googleapis.com/v0/b/dreammagic-21768/o/line_bonus_banner_money.png?alt=media&token=726e34ae-fcdd-4228-a9c3-4c87fb4a52dd")
+    private val _lineBannerImageURL = MutableStateFlow("")
     val lineBannerImageURL: StateFlow<String> = _lineBannerImageURL
 
-    private val _lineURL = MutableStateFlow("https://lin.ee/fIj3TeW")
+    private val _lineURL = MutableStateFlow("")
     val lineURL: StateFlow<String> = _lineURL
 
     private val _touURL = MutableStateFlow("")
