@@ -2,9 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20"
-
-//    kotlin("plugin.serialization") version "2.2.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
 }
 
 android {
@@ -57,32 +55,22 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.coil.compose)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0") // Use a version compatible with your Kotlin version
+    implementation(libs.kotlinx.serialization.json) // Use a version compatible with your Kotlin version
 
     // Supabase Bill of Materials (BOM)
-    val supabase_version = "3.2.6" // Use the latest version
-    implementation(platform("io.github.jan-tennert.supabase:bom:$supabase_version"))
+    implementation(platform(libs.bom.v326))
 
     // Now, you can add the modules you need without specifying the version
-    implementation("io.github.jan-tennert.supabase:auth-kt")
-    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation(libs.auth.kt)
+    implementation(libs.io.github.jan.tennert.supabase.postgrest.kt)
     // Add other modules as needed, e.g., realtime-kt, storage-kt
 
     // supabase-kt requires a Ktor client engine
     // Choose the one that fits your project (e.g., cio, android, okhttp)
     // Ensure the Ktor version is compatible with your supabase-kt version [1]
-    val ktor_version = "3.0.0-rc-1" // Check for compatible Ktor versions
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation(libs.ktor.client.cio)
 
-//    implementation(platform(libs.supabase.bom))
-//    implementation(libs.github.postgrest.kt)
-//    implementation(libs.supabase.auth.kt)
-//    implementation(libs.supabase.realtime.kt)
     implementation(libs.supabase.functions.kt)
-//    implementation(libs.ktor.client.android.v300rc1)
-
-
-//    implementation(libs.ktor.client.engine.z)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

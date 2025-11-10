@@ -60,8 +60,8 @@ object BootstrapManager {
     val launchModalButtonURL: StateFlow<String> = _launchModalButtonURL
 
     fun setTodayData(bootstrap: GetBootstrapResponse) {
-//        _todayColumn.value = bootstrap.column
-//        _todayDreamInduction.value = bootstrap.video
+        _todayColumn.value = bootstrap.column
+        _todayDreamInduction.value = bootstrap.video
         _lineBannerImageURL.value = bootstrap.lineBannerImageURL
         _lineURL.value = bootstrap.lineURL
         _touURL.value = bootstrap.touURL
