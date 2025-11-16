@@ -324,7 +324,7 @@ private fun TaskListSection(
                 hasShareButton = false
             ),
             onClick = {
-                /*todayColumn?.let(onNavigateToBookshelf) */
+                todayColumn?.let(onNavigateToBookshelf)
             }
         )
 

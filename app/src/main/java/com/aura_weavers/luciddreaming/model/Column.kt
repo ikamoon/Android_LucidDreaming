@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 data class Column(
     val id: Int,
     val title: String,
+    val imageUrl: String,
+    val contentUrl: String,
     val isPremium: Boolean
 )

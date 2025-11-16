@@ -27,7 +27,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.aura_weavers.luciddreaming.ui.screens.TodayView
+import com.aura_weavers.luciddreaming.ui.screens.SecureWebViewScreen
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
+import com.aura_weavers.luciddreaming.model.Column
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun LucidDreamingApp() {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
+    var activeColumnForWebView by rememberSaveable { mutableStateOf<com.aura_weavers.luciddreaming.model.Column?>(null) }
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -66,19 +69,29 @@ fun LucidDreamingApp() {
         val context = LocalContext.current
 
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            when (currentDestination) {
-                AppDestinations.HOME -> TodayView(
-                    modifier = Modifier.padding(innerPadding),
-                    onNavigateToTimer = { }
+            if (activeColumnForWebView != null) {
+                val column = activeColumnForWebView!!
+                SecureWebViewScreen(
+                    url = column.contentUrl,
+                    columnId = column.id,
+                    onClose = { activeColumnForWebView = null }
                 )
-                AppDestinations.FAVORITES -> Text(
-                    text = "Favorites",
-                    modifier = Modifier.padding(innerPadding)
-                )
-                AppDestinations.PROFILE -> Text(
-                    text = "Profile",
-                    modifier = Modifier.padding(innerPadding)
-                )
+            } else {
+                when (currentDestination) {
+                    AppDestinations.HOME -> TodayView(
+                        modifier = Modifier.padding(innerPadding),
+                        onNavigateToTimer = { },
+                        onNavigateToBookshelf = { column -> activeColumnForWebView = column }
+                    )
+                    AppDestinations.FAVORITES -> Text(
+                        text = "Favorites",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                    AppDestinations.PROFILE -> Text(
+                        text = "Profile",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }
