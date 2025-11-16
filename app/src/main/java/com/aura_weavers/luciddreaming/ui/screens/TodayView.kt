@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.filled.Notifications
@@ -43,7 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.aura_weavers.luciddreaming.data.TaskCardData
 import com.aura_weavers.luciddreaming.ui.components.TaskCard
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
@@ -224,14 +226,25 @@ private fun LineBannerSection(
                 )
             }
 
-            AsyncImage(
+            SubcomposeAsyncImage(
                 model = bannerImageUrl,
                 contentDescription = "LINE Banner",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
+                success = {
+                    val size = painter.intrinsicSize
+                    val ratio = if (size.width > 0f && size.height > 0f) size.width / size.height else 1f
+                    Image(
+                        painter = painter,
+                        contentDescription = "LINE Banner",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(ratio)
+                            .clip(RoundedCornerShape(8.dp)),
+                        contentScale = ContentScale.Fit
+                    )
+                }
             )
 
             Button(
