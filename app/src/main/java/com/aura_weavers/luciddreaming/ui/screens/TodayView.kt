@@ -317,7 +317,7 @@ private fun TaskListSection(
             taskData = TaskCardData(
                 index = 0,
                 title = "願いを叶えるヒントを得る",
-                subtitle = "", //""「${todayColumn?.title ?: "願望実現の鍵"}」",
+                subtitle = "「${todayColumn?.title ?: ""}」",
                 duration = "2分",
                 type = "コラム",
                 icon = "book",
