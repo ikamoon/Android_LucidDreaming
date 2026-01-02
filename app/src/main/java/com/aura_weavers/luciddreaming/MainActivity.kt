@@ -94,14 +94,14 @@ fun LucidDreamingApp() {
                                 activeVideo = dreamInductionVideo
                             }
                         )
-                        AppDestinations.FAVORITES -> Text(
-                            text = "Favorites",
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                        AppDestinations.PROFILE -> Text(
-                            text = "Profile",
-                            modifier = Modifier.padding(innerPadding)
-                        )
+//                        AppDestinations.FAVORITES -> Text(
+//                            text = "Favorites",
+//                            modifier = Modifier.padding(innerPadding)
+//                        )
+//                        AppDestinations.PROFILE -> Text(
+//                            text = "Profile",
+//                            modifier = Modifier.padding(innerPadding)
+//                        )
                     }
                 }
             }
@@ -114,6 +114,6 @@ enum class AppDestinations(
     val icon: ImageVector,
 ) {
     HOME("Today", Icons.Default.Home),
-    FAVORITES("Favorites", Icons.Default.Favorite),
-    PROFILE("Profile", Icons.Default.AccountBox),
+//    FAVORITES("Favorites", Icons.Default.Favorite),
+//    PROFILE("Profile", Icons.Default.AccountBox),
 }

@@ -170,14 +170,14 @@ private fun HeaderSection(
             )
         }
 
-        IconButton(onClick = onNavigateToTimer) {
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Timer",
-                tint = Color(0xFF9C27B0),
-                modifier = Modifier.size(24.dp)
-            )
-        }
+//        IconButton(onClick = onNavigateToTimer) {
+//            Icon(
+//                imageVector = Icons.Default.Notifications,
+//                contentDescription = "Timer",
+//                tint = Color(0xFF9C27B0),
+//                modifier = Modifier.size(24.dp)
+//            )
+//        }
     }
 }
 
@@ -285,26 +285,26 @@ private fun TaskListSection(
         verticalArrangement = Arrangement.spacedBy(16.dp) //spacing(16.dp)
     ) {
         // Morning Tasks
-        TaskSectionHeader(
-            icon = Icons.Default.Settings,
-            title = "朝起きたらやること",
-            iconTint = Color(0xFFFF9800)
-        )
-
-        TaskCard(
-            taskData = TaskCardData(
-                index = 3,
-                title = "夢日記を書く",
-                subtitle = "",
-                duration = "5分",
-                type = "日記",
-                icon = "edit",
-                hasShareButton = true
-            ),
-            onClick = onNavigateToDreamDiary
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
+//        TaskSectionHeader(
+//            icon = Icons.Default.Settings,
+//            title = "朝起きたらやること",
+//            iconTint = Color(0xFFFF9800)
+//        )
+//
+//        TaskCard(
+//            taskData = TaskCardData(
+//                index = 3,
+//                title = "夢日記を書く",
+//                subtitle = "",
+//                duration = "5分",
+//                type = "日記",
+//                icon = "edit",
+//                hasShareButton = true
+//            ),
+//            onClick = onNavigateToDreamDiary
+//        )
+//
+//        Spacer(modifier = Modifier.height(8.dp))
 
         // Night Tasks
         TaskSectionHeader(
