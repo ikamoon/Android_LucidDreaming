@@ -1,7 +1,5 @@
 package com.aura_weavers.luciddreaming
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,13 +21,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.aura_weavers.luciddreaming.ui.screens.TodayView
 import com.aura_weavers.luciddreaming.ui.screens.SecureWebViewScreen
+import com.aura_weavers.luciddreaming.ui.screens.VideoPlayerScreen
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 import com.aura_weavers.luciddreaming.model.Column
+import com.aura_weavers.luciddreaming.model.DreamInductionVideo
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +47,7 @@ class MainActivity : ComponentActivity() {
 fun LucidDreamingApp() {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
     var activeColumnForWebView by rememberSaveable { mutableStateOf<com.aura_weavers.luciddreaming.model.Column?>(null) }
+    var activeVideo by rememberSaveable { mutableStateOf<DreamInductionVideo?>(null) }
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -66,35 +66,43 @@ fun LucidDreamingApp() {
             }
         }
     ) {
-        val context = LocalContext.current
-
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            if (activeColumnForWebView != null) {
-                val column = activeColumnForWebView!!
-                SecureWebViewScreen(
-                    url = column.contentUrl,
-                    columnId = column.id,
-                    onClose = { activeColumnForWebView = null }
-                )
-            } else {
-                when (currentDestination) {
-                    AppDestinations.HOME -> TodayView(
-                        modifier = Modifier.padding(innerPadding),
-                        onNavigateToTimer = { },
-                        onNavigateToBookshelf = { column -> activeColumnForWebView = column },
-                        onPlayVideo = { dreamInductionVideo ->
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(dreamInductionVideo.videoUrl))
-                            context.startActivity(intent)
-                        }
+            when {
+                activeVideo != null -> {
+                    val video = activeVideo!!
+                    VideoPlayerScreen(
+                        videoUrl = video.videoUrl,
+                        title = video.title,
+                        onClose = { activeVideo = null }
                     )
-                    AppDestinations.FAVORITES -> Text(
-                        text = "Favorites",
-                        modifier = Modifier.padding(innerPadding)
+                }
+                activeColumnForWebView != null -> {
+                    val column = activeColumnForWebView!!
+                    SecureWebViewScreen(
+                        url = column.contentUrl,
+                        columnId = column.id,
+                        onClose = { activeColumnForWebView = null }
                     )
-                    AppDestinations.PROFILE -> Text(
-                        text = "Profile",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                }
+                else -> {
+                    when (currentDestination) {
+                        AppDestinations.HOME -> TodayView(
+                            modifier = Modifier.padding(innerPadding),
+                            onNavigateToTimer = { },
+                            onNavigateToBookshelf = { column -> activeColumnForWebView = column },
+                            onPlayVideo = { dreamInductionVideo ->
+                                activeVideo = dreamInductionVideo
+                            }
+                        )
+                        AppDestinations.FAVORITES -> Text(
+                            text = "Favorites",
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                        AppDestinations.PROFILE -> Text(
+                            text = "Profile",
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
                 }
             }
         }
