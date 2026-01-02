@@ -81,7 +81,11 @@ fun LucidDreamingApp() {
                     AppDestinations.HOME -> TodayView(
                         modifier = Modifier.padding(innerPadding),
                         onNavigateToTimer = { },
-                        onNavigateToBookshelf = { column -> activeColumnForWebView = column }
+                        onNavigateToBookshelf = { column -> activeColumnForWebView = column },
+                        onPlayVideo = { dreamInductionVideo ->
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(dreamInductionVideo.videoUrl))
+                            context.startActivity(intent)
+                        }
                     )
                     AppDestinations.FAVORITES -> Text(
                         text = "Favorites",

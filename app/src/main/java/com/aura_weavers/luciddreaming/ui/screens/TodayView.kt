@@ -332,16 +332,16 @@ private fun TaskListSection(
             taskData = TaskCardData(
                 index = 1,
                 title = "睡眠導入とアファメーション",
-                subtitle = "", //"「${todayDreamInduction?.title ?: "明晰夢への導入を聞く"}」",
+                subtitle = "「${todayDreamInduction?.title ?: "明晰夢への導入を聞く"}」",
                 duration = "5分",
                 type = "動画",
                 icon = "play",
                 hasShareButton = false
             ),
             onClick = {
-                /*todayDreamInduction?.let { video ->
+                todayDreamInduction?.let { video ->
                     onPlayVideo(video)
-                }*/
+                }
             }
         )
 
