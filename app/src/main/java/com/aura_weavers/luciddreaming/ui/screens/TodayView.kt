@@ -211,12 +211,12 @@ private fun LineBannerSection(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = null,
-                    tint = Color(0xFF9C27B0),
-                    modifier = Modifier.size(20.dp)
-                )
+//                Icon(
+//                    imageVector = Icons.Default.Menu,
+//                    contentDescription = null,
+//                    tint = Color(0xFF9C27B0),
+//                    modifier = Modifier.size(20.dp)
+//                )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "寝ながら夢を叶える体質をサポート",
@@ -255,11 +255,11 @@ private fun LineBannerSection(
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
+//                Icon(
+//                    imageVector = Icons.Default.Menu,
+//                    contentDescription = null,
+//                    modifier = Modifier.size(20.dp)
+//                )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "試してみる",
