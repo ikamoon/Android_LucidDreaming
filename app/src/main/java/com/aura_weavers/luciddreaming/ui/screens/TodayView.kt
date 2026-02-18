@@ -112,6 +112,22 @@ fun TodayView(
                     Spacer(modifier = Modifier.height(32.dp))
                 }
 
+                // Today's Task List Section
+                item {
+                    TaskListSection(
+                        todayColumn = todayColumn,
+                        todayDreamInduction = todayDreamInduction,
+                        onNavigateToDreamDiary = onNavigateToDreamDiary,
+                        onNavigateToBookshelf = onNavigateToBookshelf,
+                        onPlayVideo = onPlayVideo,
+                        onShowPaywall = { viewModel.showPaywall }
+                    )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+
                 item {
                     val context = LocalContext.current
                     LineBannerSection(
@@ -122,22 +138,6 @@ fun TodayView(
                                 Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
                             context.startActivity(intent)
                         }
-                    )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(32.dp))
-                }
-
-                // Today's Task List Section
-                item {
-                    TaskListSection(
-                        todayColumn = todayColumn,
-                        todayDreamInduction = todayDreamInduction,
-                        onNavigateToDreamDiary = onNavigateToDreamDiary,
-                        onNavigateToBookshelf = onNavigateToBookshelf,
-                        onPlayVideo = onPlayVideo,
-                        onShowPaywall = { viewModel.showPaywall }
                     )
                 }
             }

@@ -67,24 +67,24 @@ fun TaskCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Icon
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .background(
-                        color = getTypeColor(taskData.type).copy(alpha = 0.1f),
-                        shape = RoundedCornerShape(8.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = getIconForType(taskData.type),
-                    contentDescription = null,
-                    tint = getTypeColor(taskData.type),
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
+//            Box(
+//                modifier = Modifier
+//                    .size(48.dp)
+//                    .background(
+//                        color = getTypeColor(taskData.type).copy(alpha = 0.1f),
+//                        shape = RoundedCornerShape(8.dp)
+//                    ),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Icon(
+//                    imageVector = getIconForType(taskData.type),
+//                    contentDescription = null,
+//                    tint = getTypeColor(taskData.type),
+//                    modifier = Modifier.size(24.dp)
+//                )
+//            }
+//
+//            Spacer(modifier = Modifier.width(16.dp))
 
             // Content
             Column(
