@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -21,10 +22,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.aura_weavers.luciddreaming.ui.screens.TodayView
 import com.aura_weavers.luciddreaming.ui.screens.SecureWebViewScreen
+import com.aura_weavers.luciddreaming.ui.screens.BasicWebViewScreen
 import com.aura_weavers.luciddreaming.ui.screens.VideoPlayerScreen
 import com.aura_weavers.luciddreaming.ui.theme.LucidDreamingTheme
 import com.aura_weavers.luciddreaming.model.Column
@@ -78,11 +81,28 @@ fun LucidDreamingApp() {
                 }
                 activeColumnForWebView != null -> {
                     val column = activeColumnForWebView!!
-                    SecureWebViewScreen(
-                        url = column.contentUrl,
-                        columnId = column.id,
-                        onClose = { activeColumnForWebView = null }
+//                    SecureWebViewScreen(
+//                        url = column.contentUrl,
+//                        columnId = column.id,
+//                        onClose = { activeColumnForWebView = null }
+//                    )
+
+                    // Chrome Custom Tabs で外部ブラウザ風に開く
+                    val customTabsIntent = CustomTabsIntent.Builder()
+                        .setShowTitle(false)
+                        .setUrlBarHidingEnabled(true)
+                        .build()
+
+                    customTabsIntent.launchUrl(
+                        LocalContext.current,
+                        android.net.Uri.parse(column.contentUrl)
                     )
+
+                    // 表示後はフラグをクリアして Today に戻す
+                    activeColumnForWebView = null
+
+                    // Compose 的には何も描画しないプレースホルダーを返す
+                    Text(text = "")
                 }
                 else -> {
                     when (currentDestination) {
