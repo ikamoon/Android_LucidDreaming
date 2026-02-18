@@ -61,7 +61,12 @@ fun TodayView(
     onNavigateToBookshelf: (Column) -> Unit = {},
     onPlayVideo: (DreamInductionVideo) -> Unit = {},
     onNavigateToTimer: () -> Unit = {},
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 30.dp),
+    contentPadding: PaddingValues = PaddingValues(
+        start = 16.dp,
+        top = 30.dp,
+        end = 16.dp,
+        bottom = 0.dp
+    ),
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
@@ -139,6 +144,10 @@ fun TodayView(
                             context.startActivity(intent)
                         }
                     )
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
         }
